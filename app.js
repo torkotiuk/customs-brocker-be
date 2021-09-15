@@ -1,15 +1,11 @@
 const express = require('express')
 const logger = require('morgan')
 const cors = require('cors')
-require('dotenv').config()
 const { PORT = 5000 } = process.env;
 require('./bin/mongo-db-connection')
 
 
 const app = express()
-
-// const contactsRouter = require('./routes/api/contacts')
-// const usersRouter = require('./routes/api/users')
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
 
@@ -30,5 +26,3 @@ app.use((req, res) => {
   app.listen(PORT, () => {
       console.log('Server is running...')
   });
-//   require('./db/db-connect')
-//   module.exports = app
