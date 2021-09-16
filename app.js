@@ -1,6 +1,7 @@
 const express = require('express')
 const logger = require('morgan')
 const cors = require('cors')
+const authRouter = require('./routes/auth.router')
 const { PORT = 5000 } = process.env;
 require('./bin/mongo-db-connection')
 
@@ -12,6 +13,7 @@ const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
 app.use(logger(formatsLogger))
 app.use(cors())
 app.use(express.json())
+app.use(authRouter)
 
 
 app.use((req, res) => {
