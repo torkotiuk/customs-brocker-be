@@ -1,6 +1,9 @@
+require('dotenv').config();
+const { JWT_SECRET_KEY } = process.env;
 const User = require('../model/user.model');
-HTTP_CODES = require('../helpers/httpStatusCodes')
-const bcrypt = require('bcrypt')
+HTTP_CODES = require('../helpers/httpStatusCodes');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const registration = async (req, res) => {
     try {
@@ -28,6 +31,33 @@ const registration = async (req, res) => {
 
 };
 
+const login = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const candidate = await User.findOne({ email });
+
+        if (!candidate) {
+            return res.status(HTTP_CODES.UNAUTHORIZED).json({ error: 'Wrong credentials' })
+        }
+
+        const isPasswordCorrect = bcrypt.compareSync(password, candidate.password);
+        if (!isPasswordCorrect) {
+            return res.status(HTTP_CODES.UNAUTHORIZED).json({ error: 'Wrong credentials' })
+        }
+
+        const payload = {
+            email,
+            id: candidate._id
+        }
+        const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '1d' })
+        res.status(HTTP_CODES.OK).json({ token })
+
+    } catch (error) {
+        res.status(HTTP_CODES.BAD_REQUEST).json({ error: error.message })
+    }
+}
+
 module.exports = {
-    registration
+    registration,
+    login
 }
