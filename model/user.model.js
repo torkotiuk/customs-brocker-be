@@ -1,4 +1,5 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model } = require('mongoose');
+const { token } = require('morgan');
 
 const user = new Schema ({
 
@@ -11,6 +12,11 @@ const user = new Schema ({
     password: {
         type: String,
         required: true
+    },
+
+    token: {
+        type: String,
+        required: false
     }
 })
 
