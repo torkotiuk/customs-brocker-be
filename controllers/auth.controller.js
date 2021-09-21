@@ -52,12 +52,29 @@ const login = async (req, res) => {
         const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '1d' })
         res.status(HTTP_CODES.OK).json({ token })
 
+        await User.findOneAndUpdate({ _id: candidate._id }, { token })
+        
     } catch (error) {
         res.status(HTTP_CODES.BAD_REQUEST).json({ error: error.message })
     }
 }
 
+const logout = async (req, res) => {
+    const user = req.user
+    // console.log(user)
+
+    try {
+        await User.findOneAndUpdate({ _id: user.id }, { token: null })
+        res.status(HTTP_CODES.OK).json()
+        
+    } catch (error) {
+        res.status(HTTP_CODES.BAD_REQUEST).json({ error: error.message })
+    }
+
+}
+
 module.exports = {
     registration,
-    login
+    login,
+    logout
 }
