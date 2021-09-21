@@ -6,7 +6,7 @@ const declRouter = Router();
 
 declRouter.post('/api/decl', jwtTokenMiddleware, declController.createDeclaration)
 declRouter.get('/api/decl', jwtTokenMiddleware, declController.getAllDeclarations)
-declRouter.get('/api/decl/:id', jwtTokenMiddleware, declController.getAllDeclarations)
+declRouter.get('/api/decl/:declId', jwtTokenMiddleware, declController.getDeclarationById)
 
 
 module.exports = declRouter;
