@@ -7,6 +7,7 @@ const declRouter = Router();
 declRouter.post('/api/decl', jwtTokenMiddleware, declController.createDeclaration)
 declRouter.get('/api/decl', jwtTokenMiddleware, declController.getAllDeclarations)
 declRouter.get('/api/decl/:declId', jwtTokenMiddleware, declController.getDeclarationById)
+declRouter.delete('/api/decl/:declId', jwtTokenMiddleware, declController.deleteDeclarationById)
 
 
 module.exports = declRouter;
