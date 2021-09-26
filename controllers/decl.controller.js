@@ -49,9 +49,23 @@ const deleteDeclarationById = async (req, res) => {
 
 }
 
+const putDeclaration = async (req, res) => {
+    const { declId } = req.params;
+
+    try {
+        const result = await Declaration.findOneAndUpdate({ _id: declId }, { ...req.body }, { new: true })
+        res.status(HTTP_CODES.OK).json(result)
+        
+    } catch (error) {
+        res.status(HTTP_CODES.BAD_REQUEST).json({ error: error.message })
+    }
+
+}
+
     module.exports = {
         createDeclaration,
         getAllDeclarations,
         getDeclarationById,
         deleteDeclarationById,
+        putDeclaration,
     };
